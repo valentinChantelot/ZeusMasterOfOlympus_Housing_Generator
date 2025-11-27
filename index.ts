@@ -1,4 +1,4 @@
-import { generateSimpleBlock } from "./generator/generator";
+import { generateOptimizedBlock } from "./generator/generator";
 
-const grid = generateSimpleBlock();
+const grid = generateOptimizedBlock();
 grid.print();

@@ -76,9 +76,20 @@ const hygieneAndSafetyBuildings: Data[] = [
     code: "Fo",
     size: "2x2",
     workers: 4,
+    walker: { name: "Water carrier", tiles: 27, speed: 54.4 },
     cost: { Beginner: 50, Mortal: 80, Hero: 100, Titan: 120, Olympian: 150 },
     require: ["fire", "damage"],
     produce: ["water"]
+  },
+  {
+    name: "Maintenance Office",
+    code: "Mo",
+    size: "2x2",
+    workers: 5,
+    walker: { name: "Superintendent", tiles: 44, speed: 54.4 },
+    cost: { Beginner: 10, Mortal: 16, Hero: 20, Titan: 24, Olympian: 30 },
+    require: [],
+    produce: ["fire", "damage"]
   },
   {
     name: "Infirmary",

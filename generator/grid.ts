@@ -34,7 +34,7 @@ export class Grid {
     }
 
     print() {
-        console.log(this.grid.map(row => row.join("")).join("\n"));
+        console.log(this.grid.map(row => row.map(cell => cell.padEnd(2, " ")).join("")).join("\n"));
     }
 
     get(x: number, y: number): string | null {
@@ -43,4 +43,46 @@ export class Grid {
         }
         return this.grid[y][x];
     }
+
+    getReachableTiles(startX: number, startY: number, maxDist: number): Set<string> {
+        const visited = new Set<string>();
+        const queue: { x: number; y: number; dist: number }[] = [];
+
+        // Start point must be a road or adjacent to road?
+        // The walker spawns on the road. So startX, startY should be a road tile.
+        if (this.get(startX, startY) !== "-") {
+            return visited;
+        }
+
+        queue.push({ x: startX, y: startY, dist: 0 });
+        visited.add(`${startX},${startY}`);
+
+        while (queue.length > 0) {
+            const { x, y, dist } = queue.shift()!;
+
+            if (dist >= maxDist) continue;
+
+            const neighbors = [
+                { x: x + 1, y },
+                { x: x - 1, y },
+                { x, y: y + 1 },
+                { x, y: y - 1 },
+            ];
+
+            for (const n of neighbors) {
+                const key = `${n.x},${n.y}`;
+                if (!visited.has(key)) {
+                    const tile = this.get(n.x, n.y);
+                    // Walkers can only walk on Road ("-") or Roadblock ("+")?
+                    // Assuming Road ("-") for now.
+                    if (tile === "-") {
+                        visited.add(key);
+                        queue.push({ x: n.x, y: n.y, dist: dist + 1 });
+                    }
+                }
+            }
+        }
+        return visited;
+    }
+
 }
