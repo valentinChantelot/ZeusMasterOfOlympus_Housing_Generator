@@ -1,57 +1,46 @@
-export const TILE = {
-  empty: " ",
-  road: "#",
-  roadBlock: "@",
-  // 2x2
-  house: "Ho",
-  fountain: "Fo",
-  maintenance: "Ma",
-  agora: "Ag",
-  podiuMortal:"Po",
-  taxOffice: "Ta",
-  // 3x3
-  college: "Co",
-  dramaSchool: "Ds",
-  gymnasiuMortal:"Gy",
-  storeHouse: "Sh",
-  // larger buildings
-  infirmary: "In",
-  granary: "Gr",
-  theater: "Th",
-  stadiuMortal:"St",
-  // desirability enhancing structures
-  pillar: "+",
-  garden: "*",
-  hedgemaze: "&",
-  fishpond: "Fi"
-};
-
 export class Grid {
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-    this.data = Array.from({ lengtHero:height }, () =>
-      Array(width).fill(TILE.EMPTY)
-    );
-  }
+    private width: number;
+    private height: number;
+    private grid: string[][];
 
-  get(x, y) {
-    return this.data[y][x];
-  }
-
-  set(x, y, value) {
-    this.data[y][x] = value;
-  }
-
-  fillArea(x1, y1, x2, y2, value) {
-    for (let y = y1; y <= y2; y++) {
-      for (let x = x1; x <= x2; x++) {
-        this.set(x, y, value);
-      }
+    constructor(width: number, height: number) {
+        this.width = width;
+        this.height = height;
+        this.grid = Array(height).fill(null).map(() => Array(width).fill(" "));
     }
-  }
 
-  print() {
-    console.log(this.data.map(row => row.join("")).join("\n"));
-  }
+    place(x: number, y: number, code: string, width: number, height: number): boolean {
+        if (x < 0 || y < 0 || x + width > this.width || y + height > this.height) {
+            return false;
+        }
+
+        // Check collision
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
+                if (this.grid[y + i][x + j] !== " ") {
+                    return false;
+                }
+            }
+        }
+
+        // Place
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
+                this.grid[y + i][x + j] = code;
+            }
+        }
+
+        return true;
+    }
+
+    print() {
+        console.log(this.grid.map(row => row.join("")).join("\n"));
+    }
+
+    get(x: number, y: number): string | null {
+        if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
+            return null;
+        }
+        return this.grid[y][x];
+    }
 }

@@ -1,4 +1,4 @@
-type Services = "fire" | "damage" | "water" | "medicine" | "athlete" | "philosopher" | "actor" | "competitor" | "study" | "appeal" | "food" | "oliveOil" | "fleece" | "wine" | "horse" | "arms"
+type Services = "fire" | "damage" | "water" | "medicine" | "athlete" | "philosopher" | "actor" | "competitor" | "study" | "appeal" | "basicNeeds" | "richNeeds"
 
 interface ByLevelData {
   Beginner: number | null;
@@ -38,7 +38,7 @@ const generalBuildings: Data[] = [
   {
     name: "Roadblock",
     code: "+",
-    size: "1x1",
+    size: "1x1r",
     workers: null,
     cost: { Beginner: 2, Mortal: 3, Hero: 4, Titan: 5, Olympian: 10 },
     require: [],
@@ -53,7 +53,7 @@ const commonHousing: Data[] = [
     size: "2x2",
     workers: null,
     cost: { Beginner: 10, Mortal: 15, Hero: 20, Titan: 25, Olympian: 30 },
-    require: ["fire", "damage", "food", "water", "oliveOil", "fleece",],
+    require: ["fire", "damage", "water", "basicNeeds", "appeal", "medicine", "philosopher", "actor", "athlete", "study"],
     produce: []
   }
 ];
@@ -65,7 +65,7 @@ const eliteHousing: Data[] = [
     size: "4x4",
     workers: null,
     cost: { Beginner: 100, Mortal: 150, Hero: 200, Titan: 250, Olympian: 300 },
-    require: [],
+    require: ["fire", "damage", "water", "basicNeeds", "appeal", "medicine", "philosopher", "actor", "athlete", "study", "richNeeds", "competitor"],
     produce: []
   },
 ];
@@ -77,17 +77,17 @@ const hygieneAndSafetyBuildings: Data[] = [
     size: "2x2",
     workers: 4,
     cost: { Beginner: 50, Mortal: 80, Hero: 100, Titan: 120, Olympian: 150 },
-    require: [],
-    produce: []
+    require: ["fire", "damage"],
+    produce: ["water"]
   },
   {
     name: "Infirmary",
     code: "In",
     size: "4x4",
-    workers: null,
+    workers: 11,
     cost: { Beginner: 100, Mortal: 150, Hero: 200, Titan: 250, Olympian: 300 },
-    require: [],
-    produce: []
+    require: ["fire", "damage", "water"],
+    produce: ["medicine"]
   },
 ];
 
@@ -99,7 +99,7 @@ const distributionBuildings: Data[] = [
     workers: 18,
     walker: { name: "Deliveryman", tiles: -1, speed: 54.4 },
     cost: { Beginner: 50, Mortal: 80, Hero: 100, Titan: 120, Olympian: 150 },
-    require: [],
+    require: ["fire", "damage", "water"],
     produce: []
   },
   {
@@ -109,83 +109,29 @@ const distributionBuildings: Data[] = [
     workers: 12,
     walker: { name: "Deliveryman", tiles: -1, speed: 54.4 },
     cost: { Beginner: 25, Mortal: 40, Hero: 50, Titan: 60, Olympian: 75 },
-    require: [],
+    require: ["fire", "damage", "water"],
     produce: []
   },
   {
     name: "Agora",
     code: "Ag",
     size: "3x6",
-    workers: null,
+    workers: 12,
     walker: { name: "Peddler", tiles: 44, speed: 54.4 },
     cost: { Beginner: 25, Mortal: 40, Hero: 50, Titan: 60, Olympian: 75 },
     require: [],
-    produce: []
+    produce: ["basicNeeds"]
   },
   {
     name: "Grand Agora",
     code: "Ga",
     size: "5x6",
-    workers: null,
+    workers: 24,
     walker: { name: "Peddler", tiles: 44, speed: 54.4 },
     cost: { Beginner: 50, Mortal: 80, Hero: 100, Titan: 120, Olympian: 150 },
     require: [],
-    produce: []
-  },
-  {
-    name: "Food Vendor",
-    code: "foV",
-    size: "2x2a",
-    workers: 4,
-    cost: { Beginner: 10, Mortal: 16, Hero: 20, Titan: 24, Olympian: 30 },
-    require: [],
-    produce: []
-  },
-  {
-    name: "Fleece Vendor",
-    code: "flV",
-    size: "2x2a",
-    workers: 4,
-    cost: { Beginner: 10, Mortal: 16, Hero: 20, Titan: 24, Olympian: 30 },
-    require: [],
-    produce: []
-  },
-  {
-    name: "Oil Vendor",
-    code: "oV",
-    size: "2x2a",
-    workers: 4,
-    cost: { Beginner: 10, Mortal: 16, Hero: 20, Titan: 24, Olympian: 30 },
-    require: [],
-    produce: []
-  },
-  {
-    name: "Arms Vendor",
-    code: "aV",
-    size: "2x2a",
-    workers: 4,
-    cost: { Beginner: 10, Mortal: 16, Hero: 20, Titan: 24, Olympian: 30 },
-    require: [],
-    produce: []
-  },
-  {
-    name: "Wine Vendor",
-    code: "wV",
-    size: "2x2a",
-    workers: 4,
-    cost: { Beginner: 10, Mortal: 16, Hero: 20, Titan: 24, Olympian: 30 },
-    require: [],
-    produce: []
-  },
-  {
-    name: "Horse Trainer",
-    code: "hV",
-    size: "2x2a",
-    workers: 4,
-    cost: { Beginner: 10, Mortal: 16, Hero: 20, Titan: 24, Olympian: 30 },
-    require: [],
-    produce: []
-  },
+    produce: ["richNeeds"]
+  }
 ];
 
 const cultureBuildings: Data[] = [
@@ -195,8 +141,8 @@ const cultureBuildings: Data[] = [
     size: "3x3",
     workers: 12,
     cost: { Beginner: 30, Mortal: 50, Hero: 65, Titan: 75, Olympian: 100 },
-    require: [],
-    produce: []
+    require: ["fire", "damage", "water"],
+    produce: ["study"]
   },
   {
     name: "Podium",
@@ -205,8 +151,8 @@ const cultureBuildings: Data[] = [
     workers: 4,
     walker: { name: "Philosopher", tiles: 35, speed: 54.4 },
     cost: { Beginner: 15, Mortal: 24, Hero: 30, Titan: 35, Olympian: 45 },
-    require: [],
-    produce: []
+    require: ["fire", "damage", "water"],
+    produce: ["philosopher"]
   },
   {
     name: "Gymnasium",
@@ -215,8 +161,8 @@ const cultureBuildings: Data[] = [
     workers: 7,
     walker: { name: "Athlete", tiles: 35, speed: 54.4 },
     cost: { Beginner: 30, Mortal: 60, Hero: 75, Titan: 90, Olympian: 120 },
-    require: [],
-    produce: []
+    require: ["fire", "damage", "water"],
+    produce: ["athlete"]
   },
   {
     name: "Drama School",
@@ -224,8 +170,8 @@ const cultureBuildings: Data[] = [
     size: "3x3",
     workers: 10,
     cost: { Beginner: 16, Mortal: 30, Hero: 35, Titan: 42, Olympian: 50 },
-    require: [],
-    produce: []
+    require: ["fire", "damage", "water"],
+    produce: ["actor"]
   },
   {
     name: "Theater",
@@ -234,18 +180,19 @@ const cultureBuildings: Data[] = [
     workers: 18,
     walker: { name: "Actor", tiles: 35, speed: 54.4 },
     cost: { Beginner: 60, Mortal: 100, Hero: 120, Titan: 145, Olympian: 180 },
-    require: [],
-    produce: []
+    require: ["fire", "damage", "water"],
+    produce: ["actor"]
   },
-  {
-    name: "Stadium",
-    code: "St",
-    size: "10x5",
-    workers: 45,
-    walker: { name: "Competitor", tiles: 35, speed: 54.4 },
-    cost: { Beginner: 200, Mortal: 320, Hero: 400, Titan: 500, Olympian: 600 }, require: [],
-    produce: []
-  }
+  // {
+  //   name: "Stadium",
+  //   code: "St",
+  //   size: "10x5",
+  //   workers: 45,
+  //   walker: { name: "Competitor", tiles: 35, speed: 54.4 },
+  //   cost: { Beginner: 200, Mortal: 320, Hero: 400, Titan: 500, Olympian: 600 },
+  //   require: ["fire", "damage", "water"],
+  //   produce: ["competitor"]
+  // }
 ];
 
 const aestheticsBuildings: Data[] = [
@@ -255,7 +202,7 @@ const aestheticsBuildings: Data[] = [
     size: "1x1",
     workers: null,
     cost: { Beginner: 8, Mortal: 12, Hero: 16, Titan: 18, Olympian: 24 }, require: [],
-    produce: []
+    produce: ["appeal"]
   },
   {
     name: "Park",
@@ -263,7 +210,7 @@ const aestheticsBuildings: Data[] = [
     size: "1x1",
     workers: null,
     cost: { Beginner: 6, Mortal: 10, Hero: 12, Titan: 15, Olympian: 20 }, require: [],
-    produce: []
+    produce: ["appeal"]
   },
   {
     name: "Boulevard",
@@ -271,7 +218,7 @@ const aestheticsBuildings: Data[] = [
     size: "3xn r",
     workers: null,
     cost: { Beginner: 15, Mortal: 24, Hero: 30, Titan: 36, Olympian: 45 }, require: [],
-    produce: []
+    produce: ["appeal"]
   },
   {
     name: "Avenue",
@@ -279,7 +226,7 @@ const aestheticsBuildings: Data[] = [
     size: "2xn r",
     workers: null,
     cost: { Beginner: 10, Mortal: 16, Hero: 20, Titan: 25, Olympian: 30 }, require: [],
-    produce: []
+    produce: ["appeal"]
   },
   {
     name: "Bench",
@@ -287,7 +234,7 @@ const aestheticsBuildings: Data[] = [
     size: "1x1",
     workers: null,
     cost: { Beginner: 6, Mortal: 10, Hero: 12, Titan: 15, Olympian: 20 }, require: [],
-    produce: []
+    produce: ["appeal"]
   },
   {
     name: "Flower Garden",
@@ -295,7 +242,7 @@ const aestheticsBuildings: Data[] = [
     size: "2x2",
     workers: null,
     cost: { Beginner: 20, Mortal: 32, Hero: 40, Titan: 50, Olympian: 60 }, require: [],
-    produce: []
+    produce: ["appeal"]
   },
   {
     name: "Gazebo",
@@ -303,7 +250,7 @@ const aestheticsBuildings: Data[] = [
     size: "2x2",
     workers: null,
     cost: { Beginner: 24, Mortal: 36, Hero: 45, Titan: 58, Olympian: 72 }, require: [],
-    produce: []
+    produce: ["appeal"]
   },
   {
     name: "Hedge Maze",
@@ -311,7 +258,7 @@ const aestheticsBuildings: Data[] = [
     size: "3x3",
     workers: null,
     cost: { Beginner: 40, Mortal: 70, Hero: 85, Titan: 105, Olympian: 125 }, require: [],
-    produce: []
+    produce: ["appeal"]
   },
   {
     name: "Fish Pond",
@@ -319,7 +266,7 @@ const aestheticsBuildings: Data[] = [
     size: "4x4",
     workers: null,
     cost: { Beginner: 60, Mortal: 100, Hero: 125, Titan: 145, Olympian: 185 }, require: [],
-    produce: []
+    produce: ["appeal"]
   },
   {
     name: "Commemorative monument",
@@ -328,7 +275,7 @@ const aestheticsBuildings: Data[] = [
     workers: null,
     cost: null,
     require: [],
-    produce: []
+    produce: ["appeal"]
   }
 ];
 
