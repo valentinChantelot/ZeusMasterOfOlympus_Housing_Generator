@@ -11,7 +11,7 @@ interface ByLevelData {
 interface Walker {
   name: string;
   tiles: number;
-  speed: number; // tile/month
+  speed?: number; // tile/month
 }
 
 interface Data {
@@ -96,6 +96,7 @@ const hygieneAndSafetyBuildings: Data[] = [
     code: "In",
     size: "4x4",
     workers: 11,
+    walker: { name: "Healer", tiles: 27, speed: 54.4 },
     cost: { Beginner: 100, Mortal: 150, Hero: 200, Titan: 250, Olympian: 300 },
     require: ["fire", "damage", "water"],
     produce: ["medicine"]
@@ -290,6 +291,9 @@ const aestheticsBuildings: Data[] = [
   }
 ];
 
+const numberOfPeopleInMaximisedCommonHouse = 60;
+const numberOfPeopleInMaximisedEliteHouse = 20;
+
 export {
   generalBuildings,
   commonHousing,
@@ -297,5 +301,7 @@ export {
   hygieneAndSafetyBuildings,
   distributionBuildings,
   cultureBuildings,
-  aestheticsBuildings
+  aestheticsBuildings,
+  numberOfPeopleInMaximisedCommonHouse,
+  numberOfPeopleInMaximisedEliteHouse
 };

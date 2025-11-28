@@ -9,6 +9,14 @@ export class Grid {
         this.grid = Array(height).fill(null).map(() => Array(width).fill(" "));
     }
 
+    getWidth(): number {
+        return this.width;
+    }
+
+    getHeight(): number {
+        return this.height;
+    }
+
     place(x: number, y: number, code: string, width: number, height: number): boolean {
         if (x < 0 || y < 0 || x + width > this.width || y + height > this.height) {
             return false;
@@ -73,8 +81,7 @@ export class Grid {
                 const key = `${n.x},${n.y}`;
                 if (!visited.has(key)) {
                     const tile = this.get(n.x, n.y);
-                    // Walkers can only walk on Road ("-") or Roadblock ("+")?
-                    // Assuming Road ("-") for now.
+                    // Walkers can only walk on Road ("-")
                     if (tile === "-") {
                         visited.add(key);
                         queue.push({ x: n.x, y: n.y, dist: dist + 1 });
